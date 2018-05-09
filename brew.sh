@@ -46,6 +46,7 @@ install-brew() {
 	brew cask install pgadmin4
 	brew cask install docker
 	brew cask install pritunl
+	brew cask install gpg-suite
 
 	# Fonts
 	brew tap caskroom/fonts
