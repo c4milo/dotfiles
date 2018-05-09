@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+source ./macos.sh
+source ./brew.sh
+
+install() {
+	/bin/cp bash_profile.sh ~/.bash_profile
+	/bin/cp aliases.sh ~/.aliases
+	/bin/cp bash_prompt.sh ~/.bash_prompt
+
+	install-brew
+}
+
+configure() {
+	# Switch to using brew-installed bash
+	if ! fgrep -q '/usr/local/bin/bash' /etc/shells; then
+		echo '/usr/local/bin/bash' | sudo tee -a /etc/shells;
+		chsh -s /usr/local/bin/bash;
+	fi;
+
+	source ~/.bash_profile
+
+	configure-macos
+	# Tell git to use MacOS keychain to store my password
+	git config --global credential.helper osxkeychain
+}
+
+main() {
+	install
+	configure
+	echo "Done. Note that some of these changes require a logout/restart to take effect."
+}
+
+main
